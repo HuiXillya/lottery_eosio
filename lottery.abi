@@ -1,0 +1,202 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT ",
+    "version": "eosio::abi/1.1",
+    "types": [],
+    "structs": [
+        {
+            "name": "allow",
+            "base": "",
+            "fields": [
+                {
+                    "name": "period",
+                    "type": "uint64"
+                },
+                {
+                    "name": "time",
+                    "type": "uint32"
+                },
+                {
+                    "name": "numbers",
+                    "type": "int32[]"
+                },
+                {
+                    "name": "people_win_prize",
+                    "type": "int32[]"
+                },
+                {
+                    "name": "currenpeoplet_balance",
+                    "type": "asset"
+                },
+                {
+                    "name": "status",
+                    "type": "uint8"
+                }
+            ]
+        },
+        {
+            "name": "initall",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "redeem",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "serialID",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "redeemall",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "refund",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "serialID",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "setnumbers",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "shutdown",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "target",
+            "base": "",
+            "fields": [
+                {
+                    "name": "period",
+                    "type": "uint64"
+                },
+                {
+                    "name": "numbers",
+                    "type": "uint8[]"
+                }
+            ]
+        },
+        {
+            "name": "ticket",
+            "base": "",
+            "fields": [
+                {
+                    "name": "serialID",
+                    "type": "uint64"
+                },
+                {
+                    "name": "owner",
+                    "type": "name"
+                },
+                {
+                    "name": "betfunds",
+                    "type": "asset"
+                },
+                {
+                    "name": "period",
+                    "type": "string"
+                },
+                {
+                    "name": "numbers",
+                    "type": "int32[]"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "name": "initall",
+            "type": "initall",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "redeem",
+            "type": "redeem",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "redeemall",
+            "type": "redeemall",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "refund",
+            "type": "refund",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "setnumbers",
+            "type": "setnumbers",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "shutdown",
+            "type": "shutdown",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "allow",
+            "type": "allow",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "target",
+            "type": "target",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "ticket",
+            "type": "ticket",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [],
+    "variants": []
+}

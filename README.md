@@ -1,0 +1,1 @@
+lottery contract in eosio 
