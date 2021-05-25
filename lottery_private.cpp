@@ -19,6 +19,8 @@ inline  bool lottery::period_allow(std::string period,ticket *r_ticket){
         return false;
     if(allow_itr->status==0)
         return false;
+    if(allow_itr->status==4)
+        return false;
     return true;
     }
 inline  bool lottery::bet_allow(eosio::asset quantity){

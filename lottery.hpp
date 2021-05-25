@@ -40,7 +40,8 @@ class [[eosio::contract("lottery")]] lottery : public eosio::contract {
         
         struct [[eosio::table]]allow{
             uint64_t period;
-            uint32_t time;
+            uint32_t stoptime;
+            uint32_t opentime;
             std::vector <int> numbers;
             std::vector <int> people_win_prize;
             eosio::asset currenpeoplet_balance; 
@@ -113,6 +114,8 @@ class [[eosio::contract("lottery")]] lottery : public eosio::contract {
         void redeemall(eosio::name user);
 
         //dealer action
+        [[eosio::action]]
+        void stopbet(eosio::name user);
         [[eosio::action]]
         void setnumbers(eosio::name user);
         [[eosio::action]]

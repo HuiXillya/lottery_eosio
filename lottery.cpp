@@ -144,7 +144,7 @@ void lottery::shutdown(eosio::name user){
     auto ticket_itr=ticket_tbl.begin();
     auto next_ticket_itr=ticket_itr;
 
-    
+    auto sb=get_balance(get_self(),accept_symbol);
 
     eosio::asset quantity;
     while(ticket_itr!=ticket_tbl.end()){
@@ -155,11 +155,13 @@ void lottery::shutdown(eosio::name user){
             quantity=ticket_itr->betfunds;
             if(open(ticket_itr->numbers,allow_itr->numbers,quantity)>1){
                 sendtoken(user,quantity);
+                sb.amount-=quantity.amount;
                 }
             ticket_tbl.erase(ticket_itr);
             ticket_itr=ticket_tbl.begin();
             }
         else{
+             sb.amount-=ticket_itr->betfunds.amount;
             sendtoken(ticket_itr->owner,ticket_itr->betfunds);
             ticket_tbl.erase(ticket_itr);
             ticket_itr = next_ticket_itr;
@@ -170,11 +172,32 @@ void lottery::shutdown(eosio::name user){
     seed_tbl.modify(seed_tbl.begin(),get_self(),[&](auto &row){
                 row.status=0;
             });
-    sendtoken(name(INVESTOR),get_balance(get_self(),accept_symbol));
+    sendtoken(name(INVESTOR),sb);
     //transform alltoken to INVESTOR
     return;
 }
+void lottery::stopbet(eosio::name user){
+    require_auth(name(INVESTOR));
 
+    allow_idx allow_tbl(get_self(),get_self().value);
+    auto allow_itr=allow_tbl.begin();
+
+    while(allow_itr!=allow_tbl.end()){
+        if(allow_itr->status==1){
+            break;
+        }
+        else{
+            allow_itr++;
+        }
+    }
+    check(allow_itr!=allow_tbl.end(),"error:period dosent exist");
+
+    allow_tbl.modify(allow_itr,get_self(),[&](auto &row){
+
+                row.status=4;
+                row.stoptime=now();
+        });
+}
 void lottery::setnumbers(eosio::name user){
     //check user
     //check period
@@ -184,7 +207,7 @@ void lottery::setnumbers(eosio::name user){
     auto allow_itr=allow_tbl.begin();
 
     while(allow_itr!=allow_tbl.end()){
-        if(allow_itr->status==1){
+        if(allow_itr->status==4){
             break;
         }
         else{
@@ -227,7 +250,11 @@ void lottery::setnumbers(eosio::name user){
         ticket_itr++;
     }
     
-
+    auto mixd3=new_seed.data()+now();
+    
+    const char* mixedChar3 = reinterpret_cast<const char *>(&mixd3);
+    new_seed=sha256((char *)mixedChar3, sizeof(mixedChar3));
+    
 
     
     
@@ -244,16 +271,18 @@ void lottery::setnumbers(eosio::name user){
     for(int i=0;i<39;i++){
         n[i]=true;
     }
-    int jj,tn;
+    long jj;
+    int tn;
     for(int i=0;i<5;i++){
             
-            jj=(((int)seed_itr->seed.extract_as_byte_array()[i*5])%(39-i));
+            jj=(long)(((int)new_seed.extract_as_byte_array()[i*5]+(int)new_seed.extract_as_byte_array()[i*5+1]+(int)new_seed.extract_as_byte_array()[i*5+2])%(39-i));
             tn=0;
-            while(jj){
+            while(jj!=0){
                 tn++;
                 if(n[tn]){
                     jj--;
                 }
+                
             }
             print(tn+1);
             print(",");
@@ -306,7 +335,7 @@ void lottery::setnumbers(eosio::name user){
     allow_tbl.modify(allow_itr,get_self(),[&](auto &row){
                 row.numbers.assign(numbers.begin(), numbers.end());
                 row.status=0;
-                row.time=now();
+                row.opentime=now();
                 row.people_win_prize.assign(people.begin(), people.end());
                 row.currenpeoplet_balance=asset(balance,accept_symbol);
         });

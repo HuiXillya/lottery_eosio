@@ -1,1 +1,2 @@
-lottery contract in eosio 
+lottery contract in eosio
+ 
